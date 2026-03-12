@@ -1,0 +1,60 @@
+@import 'tailwindcss';
+@import '../../tokens/build/css/variables.css';
+
+@theme {
+  /* Colors */
+  --color-brand-primary: var(--ds-color-brand-primary);
+  --color-brand-secondary: var(--ds-color-brand-secondary);
+  --color-neutral-0: var(--ds-color-neutral-0);
+  --color-neutral-50: var(--ds-color-neutral-50);
+  --color-neutral-100: var(--ds-color-neutral-100);
+  --color-neutral-200: var(--ds-color-neutral-200);
+  --color-neutral-300: var(--ds-color-neutral-300);
+  --color-neutral-400: var(--ds-color-neutral-400);
+  --color-neutral-500: var(--ds-color-neutral-500);
+  --color-neutral-600: var(--ds-color-neutral-600);
+  --color-neutral-700: var(--ds-color-neutral-700);
+  --color-neutral-800: var(--ds-color-neutral-800);
+  --color-neutral-900: var(--ds-color-neutral-900);
+  --color-neutral-1000: var(--ds-color-neutral-1000);
+  --color-background: var(--ds-color-semantic-background);
+  --color-foreground: var(--ds-color-semantic-foreground);
+  --color-muted: var(--ds-color-semantic-muted);
+  --color-destructive: var(--ds-color-semantic-destructive);
+
+  /* Typography */
+  --font-sans: var(--ds-typography-font-family-sans);
+  --font-mono: var(--ds-typography-font-family-mono);
+
+  /* Radius */
+  --radius-sm: var(--ds-radius-sm);
+  --radius-md: var(--ds-radius-md);
+  --radius-lg: var(--ds-radius-lg);
+  --radius-xl: var(--ds-radius-xl);
+  --radius-2xl: var(--ds-radius-2xl);
+  --radius-full: var(--ds-radius-full);
+
+  /* Shadows */
+  --shadow-sm: var(--ds-shadow-sm);
+  --shadow-base: var(--ds-shadow-base);
+  --shadow-md: var(--ds-shadow-md);
+  --shadow-lg: var(--ds-shadow-lg);
+  --shadow-xl: var(--ds-shadow-xl);
+}
+
+@layer base {
+  *,
+  *::before,
+  *::after {
+    border-color: var(--ds-color-neutral-200);
+  }
+
+  body {
+    font-family: var(--ds-typography-font-family-sans);
+    color: var(--ds-color-semantic-foreground);
+    background-color: var(--ds-color-semantic-background);
+    line-height: var(--ds-typography-line-height-normal);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}

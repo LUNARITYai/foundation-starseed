@@ -1,0 +1,28 @@
+{
+  "color": {
+    "brand": {
+      "primary": { "$value": "#6E3FF3" },
+      "secondary": { "$value": "#A78BFA" }
+    },
+    "neutral": {
+      "0": { "$value": "#FFFFFF" },
+      "50": { "$value": "#F9FAFB" },
+      "100": { "$value": "#F3F4F6" },
+      "200": { "$value": "#E5E7EB" },
+      "300": { "$value": "#D1D5DB" },
+      "400": { "$value": "#9CA3AF" },
+      "500": { "$value": "#6B7280" },
+      "600": { "$value": "#4B5563" },
+      "700": { "$value": "#374151" },
+      "800": { "$value": "#1F2937" },
+      "900": { "$value": "#111827" },
+      "1000": { "$value": "#000000" }
+    },
+    "semantic": {
+      "background": { "$value": "{color.neutral.0}" },
+      "foreground": { "$value": "{color.neutral.900}" },
+      "muted": { "$value": "{color.neutral.100}" },
+      "destructive": { "$value": "#EF4444" }
+    }
+  }
+}

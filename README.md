@@ -1,73 +1,143 @@
-# React + TypeScript + Vite
+# Foundation Starseed
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A token-driven React design system built with TypeScript, Tailwind CSS v4, and Storybook. Foundation Starseed provides a set of accessible, composable UI primitives powered by a design token pipeline — from raw JSON tokens through Style Dictionary to Tailwind utility classes.
 
-Currently, two official plugins are available:
+## Tech Stack
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **React 19** + **TypeScript 5.9**
+- **Vite 7** — dev server & production builds
+- **Tailwind CSS 4** — utility-first styling via `@theme` integration
+- **Style Dictionary 5** — design token compilation
+- **CVA** (class-variance-authority) — type-safe component variants
+- **Storybook 10** — component development & documentation
+- **Vitest 4** + **Testing Library** — unit & component testing
 
-## React Compiler
+## Getting Started
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+```bash
+# Install dependencies
+npm install
 
-## Expanding the ESLint configuration
+# Build design tokens (required before first run)
+npm run tokens:build
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+# Start the dev server
+npm run dev
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+# Launch Storybook
+npm run storybook
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Scripts
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+| Command | Description |
+| --- | --- |
+| `npm run dev` | Vite dev server with HMR |
+| `npm run build` | TypeScript check + production build |
+| `npm run lint` | ESLint |
+| `npm run test` | Unit tests (Vitest, jsdom) |
+| `npm run test:watch` | Unit tests in watch mode |
+| `npm run tokens:build` | Rebuild design tokens via Style Dictionary |
+| `npm run storybook` | Storybook dev server on `:6006` |
+| `npm run build-storybook` | Storybook static build |
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## Architecture
+
+### Design Token Pipeline
+
+Design tokens are the single source of truth for visual properties. Raw tokens live in `tokens/src/` as JSON files:
+
 ```
+tokens/src/
+├── color.json
+├── typography.json
+├── spacing.json
+├── shadow.json
+├── radius.json
+└── motion.json
+```
+
+Running `npm run tokens:build` compiles them through Style Dictionary into:
+
+- **CSS custom properties** (`tokens/build/css/variables.css`) — prefixed with `--ds-*`
+- **JS/TS modules** (`tokens/build/js/tokens.{js,d.ts}`)
+
+These CSS variables are then mapped to Tailwind theme values in `src/styles/globals.css` via the `@theme` block, making them available as standard Tailwind classes (e.g., `bg-brand-primary`, `text-neutral-900`, `rounded-lg`).
+
+### Component Pattern
+
+All components follow the **forwardRef + CVA + cn()** pattern:
+
+```tsx
+import { forwardRef } from 'react'
+import { cva, type VariantProps } from 'class-variance-authority'
+import { cn } from '@/lib/utils'
+
+const myVariants = cva('base-classes', {
+  variants: { /* ... */ },
+  defaultVariants: { /* ... */ },
+})
+
+const MyComponent = forwardRef<HTMLElement, Props>(
+  ({ className, variant, ...props }, ref) => (
+    <element className={cn(myVariants({ variant, className }))} ref={ref} {...props} />
+  ),
+)
+```
+
+Components are organized by category under `src/components/`:
+
+| Category | Components |
+| --- | --- |
+| **ui** | Button, Input, Card, Badge |
+| **layout** | Stack, Container |
+| **feedback** | Alert |
+
+Each component is co-located with its stories (`.stories.tsx`) and tests (`.test.tsx`), and re-exported from `src/components/index.ts`.
+
+### Path Aliases
+
+`@/*` maps to `./src/*`, configured in both `tsconfig.app.json` and `vite.config.ts`.
+
+## Testing
+
+Vitest is configured with two projects:
+
+- **`unit`** — jsdom environment with `@testing-library/react` for component unit tests
+- **`storybook`** — Playwright browser environment for Storybook interaction tests
+
+Run a single test file:
+
+```bash
+npx vitest run --project unit src/components/ui/Button.test.tsx
+```
+
+## Project Structure
+
+```
+foundation-starseed/
+├── tokens/
+│   ├── src/             # Token source JSON files
+│   ├── build/           # Compiled tokens (gitignored)
+│   └── config.js        # Style Dictionary config
+├── src/
+│   ├── components/
+│   │   ├── ui/          # Button, Input, Card, Badge
+│   │   ├── layout/      # Stack, Container
+│   │   ├── feedback/    # Alert
+│   │   └── index.ts     # Barrel exports
+│   ├── lib/
+│   │   └── utils.ts     # cn() helper (clsx + tailwind-merge)
+│   ├── styles/
+│   │   └── globals.css  # Tailwind + token theme mapping
+│   ├── App.tsx
+│   └── main.tsx
+├── .storybook/          # Storybook configuration
+├── package.json
+├── vite.config.ts
+└── tsconfig.json
+```
+
+## License
+
+Private — internal use only.

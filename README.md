@@ -1,143 +1,86 @@
 # Foundation Starseed
 
-A token-driven React design system built with TypeScript, Tailwind CSS v4, and Storybook. Foundation Starseed provides a set of accessible, composable UI primitives powered by a design token pipeline — from raw JSON tokens through Style Dictionary to Tailwind utility classes.
+Foundation Starseed is a token-driven React design system built with TypeScript, Tailwind CSS 4, Storybook, and Vitest. It provides accessible, composable UI primitives backed by a Style Dictionary token pipeline.
 
 ## Tech Stack
-
-- **React 19** + **TypeScript 5.9**
-- **Vite 7** — dev server & production builds
-- **Tailwind CSS 4** — utility-first styling via `@theme` integration
-- **Style Dictionary 5** — design token compilation
-- **CVA** (class-variance-authority) — type-safe component variants
-- **Storybook 10** — component development & documentation
-- **Vitest 4** + **Testing Library** — unit & component testing
+- React 19 + TypeScript 5.9
+- Vite 7 for dev and production builds
+- Tailwind CSS 4 with `@theme` token mapping
+- Style Dictionary 5 for token compilation
+- CVA for type-safe component variants
+- Storybook 10 for component development and docs
+- Vitest 4 + Testing Library for tests
 
 ## Getting Started
-
 ```bash
-# Install dependencies
 npm install
-
-# Build design tokens (required before first run)
 npm run tokens:build
-
-# Start the dev server
 npm run dev
-
-# Launch Storybook
-npm run storybook
 ```
 
-## Scripts
+Run `npm run storybook` to inspect components in isolation on `http://localhost:6006`.
 
+## Scripts
 | Command | Description |
 | --- | --- |
-| `npm run dev` | Vite dev server with HMR |
-| `npm run build` | TypeScript check + production build |
-| `npm run lint` | ESLint |
-| `npm run test` | Unit tests (Vitest, jsdom) |
-| `npm run test:watch` | Unit tests in watch mode |
-| `npm run tokens:build` | Rebuild design tokens via Style Dictionary |
-| `npm run storybook` | Storybook dev server on `:6006` |
-| `npm run build-storybook` | Storybook static build |
+| `npm run dev` | Start the Vite dev server |
+| `npm run build` | Run TypeScript checks and create the production bundle |
+| `npm run preview` | Preview the built app locally |
+| `npm run lint` | Run ESLint across the repository |
+| `npm run test` | Run unit tests once with Vitest |
+| `npm run test:watch` | Run unit tests in watch mode |
+| `npm run storybook` | Start Storybook on port `6006` |
+| `npm run build-storybook` | Build the static Storybook site |
+| `npm run tokens:build` | Rebuild design tokens from `tokens/src/*.json` |
 
 ## Architecture
 
 ### Design Token Pipeline
+Token files in `tokens/src/` are the source of truth for color, typography, spacing, radius, shadow, and motion. Running `npm run tokens:build` generates:
 
-Design tokens are the single source of truth for visual properties. Raw tokens live in `tokens/src/` as JSON files:
+- `tokens/build/css/variables.css` with `--ds-*` CSS variables
+- `tokens/build/js/tokens.{js,d.ts}` for JavaScript and TypeScript consumption
 
-```
-tokens/src/
-├── color.json
-├── typography.json
-├── spacing.json
-├── shadow.json
-├── radius.json
-└── motion.json
-```
-
-Running `npm run tokens:build` compiles them through Style Dictionary into:
-
-- **CSS custom properties** (`tokens/build/css/variables.css`) — prefixed with `--ds-*`
-- **JS/TS modules** (`tokens/build/js/tokens.{js,d.ts}`)
-
-These CSS variables are then mapped to Tailwind theme values in `src/styles/globals.css` via the `@theme` block, making them available as standard Tailwind classes (e.g., `bg-brand-primary`, `text-neutral-900`, `rounded-lg`).
+Those variables are imported in `src/styles/globals.css` and mapped into Tailwind theme tokens such as `bg-brand-primary`, `text-neutral-500`, and `rounded-lg`.
 
 ### Component Pattern
+Components live in `src/components/` and follow the established `forwardRef + cva + cn()` pattern:
 
-All components follow the **forwardRef + CVA + cn()** pattern:
+- `src/components/ui` for primitives such as `Button`, `Input`, `Card`, and `Badge`
+- `src/components/layout` for layout primitives such as `Stack` and `Container`
+- `src/components/feedback` for status messaging such as `Alert`
 
-```tsx
-import { forwardRef } from 'react'
-import { cva, type VariantProps } from 'class-variance-authority'
-import { cn } from '@/lib/utils'
+Each component is colocated with `Component.test.tsx` and `Component.stories.tsx`, and public exports are centralized in `src/components/index.ts`.
 
-const myVariants = cva('base-classes', {
-  variants: { /* ... */ },
-  defaultVariants: { /* ... */ },
-})
-
-const MyComponent = forwardRef<HTMLElement, Props>(
-  ({ className, variant, ...props }, ref) => (
-    <element className={cn(myVariants({ variant, className }))} ref={ref} {...props} />
-  ),
-)
-```
-
-Components are organized by category under `src/components/`:
-
-| Category | Components |
-| --- | --- |
-| **ui** | Button, Input, Card, Badge |
-| **layout** | Stack, Container |
-| **feedback** | Alert |
-
-Each component is co-located with its stories (`.stories.tsx`) and tests (`.test.tsx`), and re-exported from `src/components/index.ts`.
-
-### Path Aliases
-
-`@/*` maps to `./src/*`, configured in both `tsconfig.app.json` and `vite.config.ts`.
+### Path Alias
+Use `@/` for imports from `src/`, configured in `vite.config.ts` and `tsconfig.app.json`.
 
 ## Testing
+Vitest is configured with:
 
-Vitest is configured with two projects:
+- a `unit` project using `jsdom` and Testing Library
+- a `storybook` browser project using Playwright
 
-- **`unit`** — jsdom environment with `@testing-library/react` for component unit tests
-- **`storybook`** — Playwright browser environment for Storybook interaction tests
-
-Run a single test file:
+Run a single unit test file with:
 
 ```bash
 npx vitest run --project unit src/components/ui/Button.test.tsx
 ```
 
-## Project Structure
+For UI changes, update stories and tests together.
 
-```
-foundation-starseed/
-├── tokens/
-│   ├── src/             # Token source JSON files
-│   ├── build/           # Compiled tokens (gitignored)
-│   └── config.js        # Style Dictionary config
-├── src/
-│   ├── components/
-│   │   ├── ui/          # Button, Input, Card, Badge
-│   │   ├── layout/      # Stack, Container
-│   │   ├── feedback/    # Alert
-│   │   └── index.ts     # Barrel exports
-│   ├── lib/
-│   │   └── utils.ts     # cn() helper (clsx + tailwind-merge)
-│   ├── styles/
-│   │   └── globals.css  # Tailwind + token theme mapping
-│   ├── App.tsx
-│   └── main.tsx
-├── .storybook/          # Storybook configuration
-├── package.json
-├── vite.config.ts
-└── tsconfig.json
+## Project Structure
+```text
+src/
+  components/    UI, layout, and feedback components
+  lib/           Shared utilities such as `cn()`
+  styles/        Global styles and Tailwind theme mapping
+  test/          Vitest setup
+tokens/
+  src/           Token source files
+  build/         Generated CSS variables and JS outputs
+.storybook/      Storybook configuration
 ```
 
 ## License
-
-Private — internal use only.
+Private repository for internal use.

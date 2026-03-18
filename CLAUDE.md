@@ -34,13 +34,15 @@ Token source files live in `tokens/src/` (color, typography, spacing, shadow, ra
 
 ### Component Pattern
 
-Components use **forwardRef + CVA + cn()** and live in `src/components/{ui,layout,feedback,form}/`:
+Components use **forwardRef + CVA + cn()** and live in `src/components/{ui,layout,feedback}/` (a `form/` subdirectory is planned but currently empty):
 
 - **CVA** (`class-variance-authority`) defines type-safe variant maps
 - **cn()** (`src/lib/utils.ts`) merges classes via `clsx` + `tailwind-merge`
 - Each component exports the component, its variants function, and its props type
+- Icons use `lucide-react`
 - Stories (`.stories.tsx`) and tests (`.test.tsx`) are co-located with components
 - All components are re-exported from `src/components/index.ts`
+- Accessibility is tested via `@axe-core/react` and `@storybook/addon-a11y`
 
 ### Testing
 

@@ -27,7 +27,7 @@ function App() {
         <Stack gap={4}>
           <h2 className="text-2xl font-semibold">Buttons</h2>
           <Stack direction="row" gap={3}>
-            <Button variant="primary">Primary</Button>
+            <Button variant="default">Primary</Button>
             <Button variant="secondary">Secondary</Button>
             <Button variant="outline">Outline</Button>
             <Button variant="ghost">Ghost</Button>

@@ -17,6 +17,41 @@ export {
 export { Badge, badgeVariants } from './ui/Badge'
 export type { BadgeProps } from './ui/Badge'
 
+export { Checkbox } from './ui/checkbox'
+
+export {
+  Select,
+  SelectGroup,
+  SelectValue,
+  SelectTrigger,
+  SelectContent,
+  SelectLabel,
+  SelectItem,
+  SelectSeparator,
+  SelectScrollUpButton,
+  SelectScrollDownButton,
+} from './ui/select'
+
+export {
+  Dialog,
+  DialogPortal,
+  DialogOverlay,
+  DialogClose,
+  DialogTrigger,
+  DialogContent,
+  DialogHeader,
+  DialogFooter,
+  DialogTitle,
+  DialogDescription,
+} from './ui/dialog'
+
+export {
+  Tooltip,
+  TooltipTrigger,
+  TooltipContent,
+  TooltipProvider,
+} from './ui/tooltip'
+
 // Layout
 export { Stack, stackVariants } from './layout/Stack'
 export type { StackProps } from './layout/Stack'

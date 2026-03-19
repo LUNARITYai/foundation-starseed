@@ -8,11 +8,11 @@ const meta = {
   argTypes: {
     variant: {
       control: 'select',
-      options: ['primary', 'secondary', 'outline', 'ghost', 'destructive', 'link'],
+      options: ['default', 'secondary', 'outline', 'ghost', 'destructive', 'link'],
     },
     size: {
       control: 'select',
-      options: ['sm', 'md', 'lg', 'icon'],
+      options: ['default', 'sm', 'lg', 'icon'],
     },
   },
 } satisfies Meta<typeof Button>
@@ -20,8 +20,8 @@ const meta = {
 export default meta
 type Story = StoryObj<typeof meta>
 
-export const Primary: Story = {
-  args: { children: 'Button', variant: 'primary' },
+export const Default: Story = {
+  args: { children: 'Button', variant: 'default' },
 }
 
 export const Secondary: Story = {

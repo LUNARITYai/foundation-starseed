@@ -21,13 +21,27 @@ describe('Button', () => {
     expect(screen.getByRole('button')).toBeDisabled()
   })
 
-  it('applies variant classes', () => {
+  it('applies destructive variant classes', () => {
     render(<Button variant="destructive">Delete</Button>)
     expect(screen.getByRole('button')).toHaveClass('bg-destructive')
   })
 
-  it('applies size classes', () => {
+  it('applies sm size classes', () => {
+    render(<Button size="sm">Small</Button>)
+    expect(screen.getByRole('button')).toHaveClass('h-9')
+  })
+
+  it('applies lg size classes', () => {
     render(<Button size="lg">Large</Button>)
-    expect(screen.getByRole('button')).toHaveClass('h-12')
+    expect(screen.getByRole('button')).toHaveClass('h-11')
+  })
+
+  it('renders as child element when asChild is true', () => {
+    render(
+      <Button asChild>
+        <a href="#">Link button</a>
+      </Button>,
+    )
+    expect(screen.getByRole('link', { name: 'Link button' })).toBeInTheDocument()
   })
 })

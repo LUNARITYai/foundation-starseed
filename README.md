@@ -13,30 +13,31 @@ Foundation Starseed is a token-driven React design system built with TypeScript,
 
 ## Getting Started
 ```bash
-npm install
-npm run tokens:build
-npm run dev
+corepack enable
+pnpm install
+pnpm tokens:build
+pnpm dev
 ```
 
-Run `npm run storybook` to inspect components in isolation on `http://localhost:6006`.
+Run `pnpm storybook` to inspect components in isolation on `http://localhost:6006`.
 
 ## Scripts
 | Command | Description |
 | --- | --- |
-| `npm run dev` | Start the Vite dev server |
-| `npm run build` | Run TypeScript checks and create the production bundle |
-| `npm run preview` | Preview the built app locally |
-| `npm run lint` | Run ESLint across the repository |
-| `npm run test` | Run unit tests once with Vitest |
-| `npm run test:watch` | Run unit tests in watch mode |
-| `npm run storybook` | Start Storybook on port `6006` |
-| `npm run build-storybook` | Build the static Storybook site |
-| `npm run tokens:build` | Rebuild design tokens from `tokens/src/*.json` |
+| `pnpm dev` | Start the Vite dev server |
+| `pnpm build` | Run TypeScript checks and create the production bundle |
+| `pnpm preview` | Preview the built app locally |
+| `pnpm lint` | Run ESLint across the repository |
+| `pnpm test` | Run unit tests once with Vitest |
+| `pnpm test:watch` | Run unit tests in watch mode |
+| `pnpm storybook` | Start Storybook on port `6006` |
+| `pnpm build-storybook` | Build the static Storybook site |
+| `pnpm tokens:build` | Rebuild design tokens from `tokens/src/*.json` |
 
 ## Architecture
 
 ### Design Token Pipeline
-Token files in `tokens/src/` are the source of truth for color, typography, spacing, radius, shadow, and motion. Running `npm run tokens:build` generates:
+Token files in `tokens/src/` are the source of truth for color, typography, spacing, radius, shadow, and motion. Running `pnpm tokens:build` generates:
 
 - `tokens/build/css/variables.css` with `--ds-*` CSS variables
 - `tokens/build/js/tokens.{js,d.ts}` for JavaScript and TypeScript consumption
@@ -64,7 +65,7 @@ Vitest is configured with:
 Run a single unit test file with:
 
 ```bash
-npx vitest run --project unit src/components/ui/Button.test.tsx
+pnpm exec vitest run --project unit src/components/ui/Button.test.tsx
 ```
 
 For UI changes, update stories and tests together.

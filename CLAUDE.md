@@ -5,17 +5,17 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Commands
 
 ```bash
-npm run dev              # Vite dev server with HMR
-npm run build            # TypeScript check + Vite production build
-npm run lint             # ESLint
-npm run test             # Unit tests (vitest, jsdom, one-shot)
-npm run test:watch       # Unit tests in watch mode
-npm run tokens:build     # Rebuild design tokens (Style Dictionary)
-npm run storybook        # Storybook dev server on :6006
-npm run build-storybook  # Storybook production build
+pnpm dev                 # Vite dev server with HMR
+pnpm build               # TypeScript check + Vite production build
+pnpm lint                # ESLint
+pnpm test                # Unit tests (vitest, jsdom, one-shot)
+pnpm test:watch          # Unit tests in watch mode
+pnpm tokens:build        # Rebuild design tokens (Style Dictionary)
+pnpm storybook           # Storybook dev server on :6006
+pnpm build-storybook     # Storybook production build
 ```
 
-Run a single test file: `npx vitest run --project unit src/components/ui/Button.test.tsx`
+Run a single test file: `pnpm exec vitest run --project unit src/components/ui/Button.test.tsx`
 
 ## Architecture
 
@@ -30,7 +30,7 @@ tokens/src/*.json  →  Style Dictionary  →  tokens/build/css/variables.css (-
                               Components use Tailwind classes (e.g. bg-brand-primary)
 ```
 
-Token source files live in `tokens/src/` (color, typography, spacing, shadow, radius, motion). After editing tokens, run `npm run tokens:build` to regenerate outputs. The `tokens/build/` directory is gitignored.
+Token source files live in `tokens/src/` (color, typography, spacing, shadow, radius, motion). After editing tokens, run `pnpm tokens:build` to regenerate outputs. The `tokens/build/` directory is gitignored.
 
 ### Component Pattern
 

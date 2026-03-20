@@ -18,11 +18,11 @@ This file provides comprehensive context for Gemini CLI when working with this r
 ### 1. Token Pipeline
 Design tokens are the "source of truth" for all visual styles.
 - **Source:** `tokens/src/**/*.json` (color, typography, spacing, etc.)
-- **Processing:** `npm run tokens:build` (runs Style Dictionary)
+- **Processing:** `pnpm tokens:build` (runs Style Dictionary)
 - **Output:** `tokens/build/css/variables.css` (CSS variables prefixed with `--ds-*`)
 - **Integration:** `src/styles/globals.css` maps `--ds-*` variables to Tailwind theme properties via the `@theme` block.
 
-**Workflow:** After editing a token JSON file, you **must** run `npm run tokens:build` to reflect changes in the UI.
+**Workflow:** After editing a token JSON file, you **must** run `pnpm tokens:build` to reflect changes in the UI.
 
 ### 2. Component Pattern
 Components live in `src/components/` (subdivided into `ui`, `layout`, `feedback`, `form`).
@@ -40,13 +40,13 @@ All components follow a consistent pattern:
 ## Key Commands
 | Command | Description |
 | :--- | :--- |
-| `npm run dev` | Start Vite dev server with HMR |
-| `npm run build` | TypeScript check + Vite production build |
-| `npm run lint` | Run ESLint with project-specific rules |
-| `npm run test` | Run all unit tests (Vitest) |
-| `npm run tokens:build` | Rebuild design tokens via Style Dictionary |
-| `npm run storybook` | Start Storybook dev server on port 6006 |
-| `npm run build-storybook`| Build Storybook for static deployment |
+| `pnpm dev` | Start Vite dev server with HMR |
+| `pnpm build` | TypeScript check + Vite production build |
+| `pnpm lint` | Run ESLint with project-specific rules |
+| `pnpm test` | Run all unit tests (Vitest) |
+| `pnpm tokens:build` | Rebuild design tokens via Style Dictionary |
+| `pnpm storybook` | Start Storybook dev server on port 6006 |
+| `pnpm build-storybook`| Build Storybook for static deployment |
 
 ## Development Conventions
 - **Path Aliases:** Use `@/` for `src/` directory (e.g., `import { Button } from '@/components/ui/Button'`).

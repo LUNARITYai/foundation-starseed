@@ -21,6 +21,11 @@ describe('Button', () => {
     expect(screen.getByRole('button')).toBeDisabled()
   })
 
+  it('uses pointer cursor for enabled buttons', () => {
+    render(<Button>Pointer</Button>)
+    expect(screen.getByRole('button')).toHaveClass('cursor-pointer')
+  })
+
   it('applies destructive variant classes', () => {
     render(<Button variant="destructive">Delete</Button>)
     expect(screen.getByRole('button')).toHaveClass('bg-destructive')

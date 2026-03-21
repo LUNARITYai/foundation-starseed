@@ -84,4 +84,4 @@ tokens/
 ```
 
 ## License
-Private repository for internal use.
+MIT

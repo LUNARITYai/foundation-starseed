@@ -3,13 +3,13 @@
 Foundation Starseed is a token-driven React design system built with TypeScript, Tailwind CSS 4, Storybook, and Vitest. It provides accessible, composable UI primitives backed by a Style Dictionary token pipeline.
 
 ## Tech Stack
-- React 19 + TypeScript 5.9
-- Vite 7 for dev and production builds
-- Tailwind CSS 4 with `@theme` token mapping
-- Style Dictionary 5 for token compilation
-- CVA for type-safe component variants
-- Storybook 10 for component development and docs
-- Vitest 4 + Testing Library for tests
+- [React 19](https://react.dev/) + [TypeScript 5.9](https://www.typescriptlang.org/)
+- [Vite 7](https://vite.dev/) for dev and production builds
+- [Tailwind CSS 4](https://tailwindcss.com/) with `@theme` token mapping
+- [Style Dictionary 5](https://styledictionary.com/) for token compilation
+- [CVA](https://cva.style/docs) for type-safe component variants
+- [Storybook 10](https://storybook.js.org/) for component development and docs
+- [Vitest 4](https://vitest.dev/) + [Testing Library](https://testing-library.com/) for tests
 
 ## Getting Started
 ```bash
